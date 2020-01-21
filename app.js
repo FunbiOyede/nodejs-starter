@@ -1,8 +1,6 @@
-const express = require("express");
-// const http = require("http");
+const app = require("./loaders/express");
 require("./loaders/mongoose")();
 const config = require("./config/index");
-const app = express();
 
 app.listen(config.port, err => {
   if (err) {
