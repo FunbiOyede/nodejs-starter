@@ -4,6 +4,7 @@
   "description": "boilerplate for api",
   "main": "app.js",
   "scripts": {
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -36,5 +37,11 @@
   "devDependencies": {
     "jest": "^24.9.0",
     "nodemon": "^2.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

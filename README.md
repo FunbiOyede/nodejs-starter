@@ -14,7 +14,7 @@ The project is a rest api for a health management system that serves any front-e
 
 - [ ] Api Layer
 - [ ] Session Management with Redis
-- [ ] Authentication and Authorization for both Admin and User Accounts
+- [ ] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
 - [ ] Web caching Api endpoints using Redis
 - [ ] Rate limiting for user accounts api Access
