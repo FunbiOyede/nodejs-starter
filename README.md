@@ -10,4 +10,18 @@ This project would be based on my own version of IBM's [Example Health](https://
 
 The project is a rest api for a health management system that serves any front-end platform such as Android, iOS or Reactjs, with patient records, appointments informations and reminders, and also keeping track of medications in json format.The management of the system would be controlled by an authenticated admin account where CRUD operations would be performed on patient records.
 
-_STATUS : UNDER CONSTRUCTION_
+# Roadmap
+
+- [ ] Api Layer
+- [ ] Session Management with Redis
+- [ ] Authentication and Authorization for both Admin and User Accounts
+- [ ] Units test with Jest
+- [ ] Web caching Api endpoints using Redis
+- [ ] Rate limiting for user accounts api Access
+- [ ] Continuous Integration with Travis CI
+- [ ] Linting With Eslint
+- [ ] sending of emails and reminders with twillo and nodemailer
+- [ ] Logging Layer
+- [ ] end to end testing with testcafe
+- [ ] hosting on heroku
+- [ ] and lets see if more would be added
