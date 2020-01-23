@@ -6,7 +6,7 @@ const app = express();
 
 //  health checks
 app.get("/status", (req, res) => {
-  res.status(200).send();
+  res.status(200).send("working");
 });
 
 // cors
