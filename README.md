@@ -22,6 +22,7 @@ The project is a rest api for a health management system that serves any front-e
 - [ ] Linting With Eslint
 - [ ] sending of emails and reminders with twillo and nodemailer
 - [ ] Logging Layer
+- [ ] docker support
 - [ ] end to end testing with testcafe
 - [ ] hosting on heroku
 - [ ] and lets see if more would be added
