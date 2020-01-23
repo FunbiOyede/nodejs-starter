@@ -81,6 +81,20 @@ class AdminService {
       console.log(error);
     }
   }
+
+  /**
+   * @description fetches all patients
+   * @returns {object} patient
+   * @memberof AdminService
+   */
+  static async GetPatients() {
+    try {
+      const patient = await PatientModel.find();
+      return patient;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = AdminService;
