@@ -1,14 +1,16 @@
 const express = require("express");
 const AdminService = require("../../services/admin");
 const Router = express.Router();
+const logger = require("../../loaders/logger");
 
 // all patients
 Router.get("/patients", async (req, res) => {
   try {
     const patients = await AdminService.GetPatients();
-    return res.json(patients);
-  } catch (error) {
-    res.status(400).json("🔥 error: %o", error);
+    res.json(patients);
+  } catch (e) {
+    res.status(400).json(e);
+    logger.error(e);
   }
 });
 
@@ -26,9 +28,10 @@ Router.post("/patient", async (req, res) => {
       bloodGroup: req.body.bloodGroup
     };
     const patient = await AdminService.CreatePatient(patientRecord);
-    return res.json(patient);
-  } catch (error) {
-    res.status(400).json("🔥 error: %o", error);
+    res.status(201).json(patient);
+  } catch (e) {
+    res.status(400).json(e);
+    logger.error(e);
   }
 });
 // get a patient
@@ -36,9 +39,10 @@ Router.get("/patient/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const patient = await AdminService.GetPatient(id);
-    return res.json(patient);
-  } catch (error) {
-    res.status(400).json("🔥 error: %o", error);
+    res.status(200).json(patient);
+  } catch (e) {
+    res.status(400).json(e);
+    logger.error(e);
   }
 });
 // update patient
@@ -52,9 +56,10 @@ Router.put("/patient/:id", async (req, res) => {
       phoneNumber: req.body.phoneNumber
     };
     const patient = await AdminService.UpdatePatient(id, patientRecord);
-    res.json(patient);
-  } catch (error) {
-    res.status(400).json("🔥 error: %o", error);
+    res.status(201).json(patient);
+  } catch (e) {
+    res.status(400).json(e);
+    logger.error(e);
   }
 });
 // delete patient
@@ -62,9 +67,10 @@ Router.delete("/patient/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const patient = await AdminService.DeletePatient(id);
-    return res.json(patient);
-  } catch (error) {
-    res.status(400).json("🔥 error: %o", error);
+    res.status(200).json(patient);
+  } catch (e) {
+    res.status(400).json(e);
+    logger.error(e);
   }
 });
 

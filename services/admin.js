@@ -1,4 +1,5 @@
 const PatientModel = require("../models/patient");
+const logger = require("../loaders/logger");
 
 /**
  * @description Services for CRUD of patients
@@ -25,8 +26,9 @@ class AdminService {
       });
       const Patient = await patientRecord.save();
       return { patient: Patient };
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
   }
 
@@ -40,8 +42,9 @@ class AdminService {
     try {
       const patient = await PatientModel.findById(id);
       return { patient };
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
   }
 
@@ -55,8 +58,9 @@ class AdminService {
     try {
       const patient = await PatientModel.findByIdAndDelete(id);
       return { patient };
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
   }
 
@@ -77,8 +81,9 @@ class AdminService {
         phoneNumber: patient.phoneNumber
       });
       return { patient: Patient };
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
   }
 
@@ -91,8 +96,9 @@ class AdminService {
     try {
       const patient = await PatientModel.find();
       return patient;
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
   }
 }

@@ -1,4 +1,5 @@
 const PatientModel = require("../models/patient");
+const logger = require("../loaders/logger");
 
 /**
  * @description  services for patients
@@ -15,8 +16,9 @@ class PatientService {
     try {
       const patient = await PatientModel.findById(id);
       return patient;
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      logger.error(e);
+      throw e;
     }
   }
 }
