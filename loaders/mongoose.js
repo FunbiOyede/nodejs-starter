@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const config = require("../config/index");
-const logger = require("../loaders/logger");
+const mongooseLog = require("../loaders/logger").mongooseLogger;
 
 module.exports = () => {
   mongoose.connect(config.databaseURL, {
@@ -9,12 +9,12 @@ module.exports = () => {
   });
 
   mongoose.connection.on("open", () => {
-    logger.info(`connection opened on ${config.databaseURL}`);
+    mongooseLog.info(`connection opened on ${config.databaseURL}`);
   });
   mongoose.connection.on("error", () => {
-    logger.error(`connection error on ${config.databaseURL}`);
+    mongooseLog.error(`connection error on ${config.databaseURL}`);
   });
   mongoose.connection.on("close", () => {
-    logger.info(`connection closed on ${config.databaseURL}`);
+    mongooseLog.warn(`connection closed on ${config.databaseURL}`);
   });
 };
