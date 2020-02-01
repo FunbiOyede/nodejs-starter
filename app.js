@@ -2,16 +2,17 @@ const app = require("./loaders/express");
 require("./loaders/mongoose")();
 const config = require("./config/index");
 const http = require("http");
-const logger = require("./loaders/logger");
+const serverLog = require("./loaders/logger").serverLogger;
 
 const server = http.createServer(app);
 
 server.listen(config.port, err => {
   if (err) {
     process.exit(1);
-    logger.error(err);
+    serverLog.error(err);
   }
-  logger.info(`
+
+  serverLog.info(`
        **********************************************
        🌋 Server listening on port: ${config.port}🌋
        **********************************************

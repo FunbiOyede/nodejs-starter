@@ -1,8 +1,7 @@
 const express = require("express");
 const AdminService = require("../../services/admin");
 const Router = express.Router();
-const logger = require("../../loaders/logger");
-
+const responseLog = require("../../loaders/logger").responseLogger;
 // all patients
 Router.get("/patients", async (req, res) => {
   try {
@@ -10,7 +9,7 @@ Router.get("/patients", async (req, res) => {
     res.json(patients);
   } catch (e) {
     res.status(400).json(e);
-    logger.error(e);
+    responseLog.error(e);
   }
 });
 
@@ -31,7 +30,7 @@ Router.post("/patient", async (req, res) => {
     res.status(201).json(patient);
   } catch (e) {
     res.status(400).json(e);
-    logger.error(e);
+    responseLog.error(e);
   }
 });
 // get a patient
@@ -42,7 +41,7 @@ Router.get("/patient/:id", async (req, res) => {
     res.status(200).json(patient);
   } catch (e) {
     res.status(400).json(e);
-    logger.error(e);
+    responseLog.error(e);
   }
 });
 // update patient
@@ -59,7 +58,7 @@ Router.put("/patient/:id", async (req, res) => {
     res.status(201).json(patient);
   } catch (e) {
     res.status(400).json(e);
-    logger.error(e);
+    responseLog.error(e);
   }
 });
 // delete patient
@@ -70,7 +69,7 @@ Router.delete("/patient/:id", async (req, res) => {
     res.status(200).json(patient);
   } catch (e) {
     res.status(400).json(e);
-    logger.error(e);
+    responseLog.error(e);
   }
 });
 

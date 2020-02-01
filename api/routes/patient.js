@@ -1,6 +1,6 @@
 const express = require("express");
 const PatientService = require("../../services/patient");
-const logger = require("../../loaders/logger");
+const responseLog = require("../../loaders/logger").responseLogger;
 const Router = express.Router();
 
 Router.get("/patient/:id", async (req, res) => {
@@ -10,7 +10,7 @@ Router.get("/patient/:id", async (req, res) => {
     res.status(200).json(patient);
   } catch (e) {
     res.status(400).json(e);
-    logger.error(e);
+    responseLog.error(e);
   }
 });
 

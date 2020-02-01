@@ -21,7 +21,11 @@ The project is a rest api for a health management system that serves any front-e
 - [ ] Continuous Integration with Travis CI
 - [ ] Linting With Eslint
 - [ ] sending of emails and reminders with twillo and nodemailer
+<<<<<<< HEAD
 - [X] Logging Layer
+=======
+- [x] Logging Layer
+>>>>>>> feature/logger
 - [ ] docker support
 - [ ] end to end testing with testcafe
 - [ ] hosting on heroku
