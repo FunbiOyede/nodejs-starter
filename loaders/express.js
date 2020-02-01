@@ -1,8 +1,7 @@
 const express = require("express");
 const expressWinston = require("express-winston");
 const cors = require("cors");
-// const winston = require("winston");
-// const { timestamp, combine, printf, label } = winston.format;
+
 const bodyParser = require("body-parser");
 const AdminRoutes = require("../api/routes/admin");
 const PatientRoutes = require("../api/routes/patient");
