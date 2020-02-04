@@ -1,6 +1,14 @@
 const winston = require("winston");
 const { timestamp, combine, printf, label } = winston.format;
 
+const transport = [];
+
+if (process.env.NODE_ENV !== "production") {
+  transport.push(new winston.transports.Console());
+} else {
+  transport.push(new winston.transports.File({ filename: "http.log" }));
+}
+
 /**
  * @function HttpLogger
  * @description  logger for express routes
@@ -9,7 +17,7 @@ const { timestamp, combine, printf, label } = winston.format;
 
 const HttpLogger = () => {
   return {
-    transports: [new winston.transports.File({ filename: "http.log" })],
+    transports: transport,
     level: "info",
     format: combine(
       label({

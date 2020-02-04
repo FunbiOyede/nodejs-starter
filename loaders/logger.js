@@ -1,6 +1,14 @@
 const winston = require("winston");
 const { timestamp, combine, printf, label } = winston.format;
 
+const transport = [];
+
+if (process.env.NODE_ENV !== "production") {
+  transport.push(new winston.transports.Console());
+} else {
+  transport.push(new winston.transports.File({ filename: "app.log" }));
+}
+
 /**
  *
  * @function loggerConfigurator
@@ -21,10 +29,7 @@ const loggerConfigurator = area => {
         return `  ${info.timestamp} - ${info.label}:[${info.level}]: ${info.message}  `;
       })
     ),
-    transports: [
-      new winston.transports.Console(),
-      new winston.transports.File({ filename: "app.log" })
-    ]
+    transports: transport
   };
 };
 

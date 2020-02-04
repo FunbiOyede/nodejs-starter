@@ -11,6 +11,7 @@ server.listen(config.port, err => {
     process.exit(1);
     serverLog.error(err);
   }
+  console.log(process.env.NODE_ENV);
 
   serverLog.info(`
        **********************************************
