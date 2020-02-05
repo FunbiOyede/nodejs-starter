@@ -21,15 +21,15 @@ const HttpLogger = () => {
     level: "info",
     format: combine(
       label({
-        label: "Endpoint"
+        label: "HTTP Requests"
       }),
       timestamp(),
       printf(info => {
-        return `  ${info.timestamp} - ${info.label}:[${info.level}]: ${info.message}  `;
+        return `  ${info.timestamp} - ${info.label}:[${info.level}] - ${info.message}  `;
       })
     ),
     msg:
-      "HTTP {{req.method}} {{req.url}}  code: {{res.statusCode}}  response-time: {{res.responseTime}}ms"
+      "method={{req.method}}, route={{req.url}}, code={{res.statusCode}}, response-time={{res.responseTime}}ms"
   };
 };
 

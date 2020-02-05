@@ -10,12 +10,6 @@ const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
 const app = express();
 
-//  health checks
-// GET
-app.get("/status", (req, res) => {
-  res.status(200).send("working");
-});
-
 // cors
 app.use(cors());
 
@@ -25,6 +19,12 @@ app.use(express.json());
 
 // http logger
 app.use(expressWinston.logger(HttpLogger()));
+
+//  health checks
+// GET
+app.get("/status", (req, res) => {
+  res.status(200).send("working");
+});
 
 // routes
 app.use(config.api.AdminPrefix, AdminAuthRoutes);
