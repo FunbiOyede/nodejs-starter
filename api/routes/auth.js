@@ -42,9 +42,6 @@ Router.post(
   }
 );
 
-Router.get("/type", (req, res) => {
-  AdminService.findTypes();
-});
 // logging admin
 Router.post(
   "/login",
@@ -57,6 +54,7 @@ Router.post(
     const { email } = req.body;
     try {
       const admin = await AdminService.SignIn(email);
+
       res.status(200).json(admin);
     } catch (error) {
       throw error;
