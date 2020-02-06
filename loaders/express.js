@@ -1,21 +1,35 @@
 const express = require("express");
 const expressWinston = require("express-winston");
 const cors = require("cors");
-
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const AdminRoutes = require("../api/routes/admin");
 const PatientRoutes = require("../api/routes/patient");
 const AdminAuthRoutes = require("../api/routes/auth");
 const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
-const app = express();
+const MongoSessionStore = require("connect-mongodb-session")(session);
 
+const app = express();
+const store = new MongoSessionStore({
+  uri: "mongodb://localhost:27017/ExampleHealth",
+  collection: "session"
+});
 // cors
 app.use(cors());
 
 // bodyparser
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  session({
+    secret: "My Session",
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
 
 // http logger
 app.use(expressWinston.logger(HttpLogger()));
@@ -23,7 +37,9 @@ app.use(expressWinston.logger(HttpLogger()));
 //  health checks
 // GET
 app.get("/status", (req, res) => {
-  res.status(200).send("working");
+  // res.setHeader("Set-Cookie", "loggedIn=true");
+  // res.status(200).send("working");
+  req.session.isLoggedIn = true;
 });
 
 // routes
