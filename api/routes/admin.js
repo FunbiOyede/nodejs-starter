@@ -2,6 +2,8 @@ const express = require("express");
 const AdminService = require("../../services/admin");
 const Router = express.Router();
 const responseLog = require("../../loaders/logger").responseLogger;
+
+// all this would happen if you the admin is authenticated
 // all patients
 Router.get("/patients", async (req, res) => {
   try {

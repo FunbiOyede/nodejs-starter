@@ -5,26 +5,29 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const AdminRoutes = require("../api/routes/admin");
 const PatientRoutes = require("../api/routes/patient");
+const AdminAuthRoutes = require("../api/routes/auth");
 const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
 const app = express();
-
-//  health checks
-app.get("/status", (req, res) => {
-  res.status(200).send("working");
-});
 
 // cors
 app.use(cors());
 
 // bodyparser
 app.use(bodyParser.json());
+app.use(express.json());
 
 // http logger
 app.use(expressWinston.logger(HttpLogger()));
 
-// routes
+//  health checks
+// GET
+app.get("/status", (req, res) => {
+  res.status(200).send("working");
+});
 
+// routes
+app.use(config.api.AdminPrefix, AdminAuthRoutes);
 app.use(config.api.AdminPrefix, AdminRoutes);
 
 app.use(config.api.prefix, PatientRoutes);

@@ -4,7 +4,8 @@
   "description": "boilerplate for api",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "start": "NODE_ENV=production node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,6 +28,7 @@
   "homepage": "https://github.com/FunbiOyede/node-mongo-boilerplate#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "celebrate": "^11.0.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
