@@ -37,9 +37,7 @@ app.use(expressWinston.logger(HttpLogger()));
 //  health checks
 // GET
 app.get("/status", (req, res) => {
-  // res.setHeader("Set-Cookie", "loggedIn=true");
-  // res.status(200).send("working");
-  req.session.isLoggedIn = true;
+  res.status().sendsend("working");
 });
 
 // routes

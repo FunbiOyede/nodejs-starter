@@ -1,6 +1,7 @@
 const express = require("express");
 const AdminService = require("../../services/AdminAuth");
 const { celebrate, Joi, Segments } = require("celebrate");
+const AttachUser = require("../middleware/attachCurrentUser");
 const Router = express.Router();
 
 // register admin
@@ -43,6 +44,7 @@ Router.post(
 );
 
 // logging admin
+
 Router.post(
   "/login",
   celebrate({
@@ -50,16 +52,28 @@ Router.post(
       email: Joi.string().required()
     })
   }),
-  async (req, res) => {
-    const { email } = req.body;
-    try {
-      const admin = await AdminService.SignIn(email);
-
-      res.status(200).json(admin);
-    } catch (error) {
-      throw error;
-    }
+  AttachUser,
+  (req, res) => {
+    res.send(req.session.admin);
   }
 );
+// Router.post(
+//   "/login",
+//   celebrate({
+//     [Segments.BODY]: Joi.object().keys({
+//       email: Joi.string().required()
+//     })
+//   }),
+//   async (req, res) => {
+//     const { email } = req.body;
+//     try {
+//       const admin = await AdminService.SignIn(email);
+
+//       res.status(200).json(admin);
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+// );
 
 module.exports = Router;
