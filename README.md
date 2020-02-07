@@ -14,7 +14,7 @@ The project is a backend system for a health management system that serves any f
 
 - [ ] Api Layer
 - [ ] Access Control
-- [ ] Session Management with Mongo
+- [x] Session Management with MongoDB
 - [ ] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
 - [ ] Web caching Api endpoints using Redis

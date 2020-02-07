@@ -8,13 +8,10 @@ const PatientRoutes = require("../api/routes/patient");
 const AdminAuthRoutes = require("../api/routes/auth");
 const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
-const MongoSessionStore = require("connect-mongodb-session")(session);
-
+const errorHandler = require("../api/middleware/errorHandler");
+const sessionStore = require('../loaders/sessionStore');
 const app = express();
-const store = new MongoSessionStore({
-  uri: "mongodb://localhost:27017/ExampleHealth",
-  collection: "session"
-});
+
 // cors
 app.use(cors());
 
@@ -27,7 +24,7 @@ app.use(
     secret: "My Session",
     resave: false,
     saveUninitialized: false,
-    store: store
+    store: sessionStore
   })
 );
 
@@ -47,8 +44,6 @@ app.use(config.api.AdminPrefix, AdminRoutes);
 app.use(config.api.prefix, PatientRoutes);
 
 // Error 404 handler
-app.use((req, res) => {
-  res.send("not found");
-});
+app.use(errorHandler);
 
 module.exports = app;
