@@ -8,8 +8,7 @@ const PatientRoutes = require("../api/routes/patient");
 const AdminAuthRoutes = require("../api/routes/auth");
 const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
-const errorHandler = require("../api/middleware/errorHandler");
-const sessionStore = require('../loaders/sessionStore');
+const sessionStore = require("../loaders/sessionStore");
 const app = express();
 
 // cors
@@ -34,7 +33,7 @@ app.use(expressWinston.logger(HttpLogger()));
 //  health checks
 // GET
 app.get("/status", (req, res) => {
-  res.status().sendsend("working");
+  res.status(200).json("working");
 });
 
 // routes
@@ -43,7 +42,20 @@ app.use(config.api.AdminPrefix, AdminRoutes);
 
 app.use(config.api.prefix, PatientRoutes);
 
-// Error 404 handler
-app.use(errorHandler);
+//Each 404 send to Omnipotent error handler
+app.use((req, res, next) => {
+  const error = new Error("Not found");
+  error.status = 404;
+  next(error);
+});
 
+// Omnipotent error handler
+app.use((error, res) => {
+  res.status(error.status || 500).json({
+    error: {
+      status: error.status || 500,
+      message: error.message || "Internal server error"
+    }
+  });
+});
 module.exports = app;
