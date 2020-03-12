@@ -4,8 +4,8 @@
   "description": "boilerplate for api",
   "main": "app.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon app.js",
-    "start": "NODE_ENV=production node app.js",
+    "dev": "set NODE_ENV=development&&nodemon app.js",
+    "start": "set NODE_ENV=production node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

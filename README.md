@@ -12,9 +12,8 @@ The project is a backend system for a health management system that serves any f
 
 # Roadmap
 
-- [ ] Api Layer
+- [x] Api Layer
 - [ ] Access Control
-- [x] Session Management with MongoDB
 - [ ] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
 - [ ] Web caching Api endpoints using Redis
@@ -26,4 +25,5 @@ The project is a backend system for a health management system that serves any f
 - [ ] docker support
 - [ ] end to end testing with testcafe
 - [ ] hosting on heroku
+- [x] Token based authentication
 - [ ] and lets see if more would be added
