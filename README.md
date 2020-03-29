@@ -1,6 +1,6 @@
 # Backend System Boilerplate 📖
 
-This is another boilerplate for Backend System written with Node.js, Express, and MongoDB, Mongooose for learning purposes.
+This is another starter for building a Backend System written with Node.js, Express, and MongoDB, Mongooose for learning purposes.
 
 # Getting Started
 
