@@ -20,9 +20,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   session({
-    secret: "My Session",
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: false,
+    cookie:{
+     httpOnly:true,
+
+    },
     store: sessionStore
   })
 );

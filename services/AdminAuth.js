@@ -1,4 +1,5 @@
 const AdminModel = require("../models/admin");
+const {hash,compare} = require('bcryptjs');
 
 /**
  * @class AuthService
@@ -17,10 +18,15 @@ class AuthService {
    */
   static async SignUp(admin) {
     try {
-      const adminRecord = await AdminModel.create(admin);
-      if (!adminRecord) {
-        throw new Error("User cannot be created");
+      if(AdminModel.findOne({email:admin.email})){
+        throw new Error('user with email already exits')
       }
+      const hashedPassword = await hash(admin.password,12);
+      const adminRecord = await AdminModel.create({
+        ...admin,
+        password:hashedPassword
+      });
+  
       return adminRecord;
     } catch (error) {
       throw error;
@@ -36,13 +42,19 @@ class AuthService {
    *
    */
   // email  for now password later
-  static async SignIn(email) {
+  static async SignIn(user) {
     try {
-      const adminRecord = await AdminModel.findOne({ email });
+      const adminRecord = await AdminModel.findOne({ email:user.email });
       if (!adminRecord) {
-        throw new Error("User not registered");
+        throw new Error("invalid email");
       }
-      return adminRecord;
+    
+      if(compare(user.password,adminRecord.password)){
+        return adminRecord;
+        
+      }
+      throw new Error('invalid password')
+     
     } catch (error) {
       throw error;
     }
