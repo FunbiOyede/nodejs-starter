@@ -1,4 +1,4 @@
-const AdminModel = require("../models/admin");
+const Admin = require("../models/admin");
 const {hash,compare} = require('bcryptjs');
 
 /**
@@ -18,11 +18,11 @@ class AuthService {
    */
   static async SignUp(admin) {
     try {
-      if(AdminModel.findOne({email:admin.email})){
-        throw new Error('user with email already exits')
+      if( await Admin.findOne({email:admin.email})){
+         throw new Error("User already exists. Please try again.")
       }
       const hashedPassword = await hash(admin.password,12);
-      const adminRecord = await AdminModel.create({
+      const adminRecord = await Admin.create({
         ...admin,
         password:hashedPassword
       });

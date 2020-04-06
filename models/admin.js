@@ -40,14 +40,5 @@ const Admin = new mongoose.Schema({
     required: true
   }
 });
-// function logAdmins(err, admin) {
-//   if (err) {
-//     throw err;
-//   }
-//   console.log(admin);
-// }
-// later things
-// Admin.methods.fetchAllAdmin = function(cb) {
-//   return this.model("Admin").find(cb);
-// };
+
 module.exports = mongoose.model("Admin", Admin);

@@ -2,6 +2,7 @@ const express = require("express");
 const expressWinston = require("express-winston");
 const cors = require("cors");
 const session = require("express-session");
+const { errors } = require("celebrate");
 const bodyParser = require("body-parser");
 const AdminRoutes = require("../api/routes/admin");
 const PatientRoutes = require("../api/routes/patient");
@@ -45,6 +46,7 @@ app.use(config.api.AdminPrefix, AdminAuthRoutes);
 app.use(config.api.AdminPrefix, AdminRoutes);
 
 app.use(config.api.prefix, PatientRoutes);
+app.use(errors())
 
 //Each 404 send to Omnipotent error handler
 app.use((req, res, next) => {

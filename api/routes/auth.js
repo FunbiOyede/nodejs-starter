@@ -12,7 +12,7 @@ Router.post(
     [Segments.BODY]: Joi.object().keys({
       name: Joi.string().required(),
       role: Joi.string().required(),
-      email: Joi.string().required(),
+      email: Joi.string().required().email(),
       gender: Joi.string().required(),
       age: Joi.number()
         .integer()
@@ -23,9 +23,10 @@ Router.post(
       bloodGroup: Joi.string().required()
     })
   }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
-      const adminRecord = await AdminService.SignUp({  name: req.body.name,
+      const adminRecord = await AdminService.SignUp({ 
+        name: req.body.name,
         role: req.body.role,
         email: req.body.email,
         gender: req.body.gender,
@@ -36,8 +37,7 @@ Router.post(
         bloodGroup: req.body.bloodGroup});
       res.status(201).json({message:'user created', adminRecord});
     } catch (error) {
-      console.log(error)
-      res.status(400).json(error)
+    res.status(401).json({messae:'User already exists. Please try again.'})
     }
   }
 );
