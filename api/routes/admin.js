@@ -2,10 +2,11 @@ const express = require("express");
 const AdminService = require("../../services/admin");
 const Router = express.Router();
 const responseLog = require("../../loaders/logger").responseLogger;
+const isAuth = require('../middleware/attachCurrentUser');
 
 // all this would happen if you the admin is authenticated
 // all patients
-Router.get("/patients", async (req, res) => {
+Router.get("/patients",isAuth, async (req, res) => {
   try {
     const patients = await AdminService.GetPatients();
     res.json(patients);
@@ -16,7 +17,7 @@ Router.get("/patients", async (req, res) => {
 });
 
 // create patient
-Router.post("/patient", async (req, res) => {
+Router.post("/patient", isAuth, async (req, res) => {
   try {
     const patientRecord = {
       name: req.body.name,
@@ -36,7 +37,7 @@ Router.post("/patient", async (req, res) => {
   }
 });
 // get a patient
-Router.get("/patient/:id", async (req, res) => {
+Router.get("/patient/:id", isAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const patient = await AdminService.GetPatient(id);
@@ -47,7 +48,7 @@ Router.get("/patient/:id", async (req, res) => {
   }
 });
 // update patient
-Router.put("/patient/:id", async (req, res) => {
+Router.put("/patient/:id",isAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const patientRecord = {
@@ -64,7 +65,7 @@ Router.put("/patient/:id", async (req, res) => {
   }
 });
 // delete patient
-Router.delete("/patient/:id", async (req, res) => {
+Router.delete("/patient/:id",isAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const patient = await AdminService.DeletePatient(id);

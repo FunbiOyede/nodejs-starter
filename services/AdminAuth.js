@@ -44,7 +44,7 @@ class AuthService {
   // email  for now password later
   static async SignIn(user) {
     try {
-      const adminRecord = await AdminModel.findOne({ email:user.email });
+      const adminRecord = await Admin.findOne({ email:user.email });
       if (!adminRecord) {
         throw new Error("invalid email");
       }

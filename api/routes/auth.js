@@ -77,8 +77,9 @@ Router.post(
         email:req.body.email,
         password:req.body.password
       });
-
-      res.status(200).json({messae:'logged in', admin});
+      req.session.isLoggedIn = true,
+      req.session.admin = admin
+      res.status(200).json({message:'logged in', admin});
     } catch (error) {
      res.status(400).json({message:"invalid crendentials"})
     }
