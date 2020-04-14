@@ -10,6 +10,7 @@ const AdminAuthRoutes = require("../api/routes/auth");
 const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
 const sessionStore = require("../loaders/sessionStore");
+const mailer = require('../services/mailer');
 const app = express();
 
 // cors
@@ -39,6 +40,7 @@ app.use(expressWinston.logger(HttpLogger()));
 // GET
 app.get("/status", (req, res) => {
   res.status(200).json("working");
+  mailer.sendWelcome();
 });
 
 // routes

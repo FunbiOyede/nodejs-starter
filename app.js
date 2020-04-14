@@ -7,6 +7,7 @@ const serverLog = require("./loaders/logger").serverLogger;
 const server = http.createServer(app);
 
 server.listen(config.port, err => {
+  console.log(process.env.NODE_ENV)
   if (err) {
     process.exit(1);
     serverLog.error(err);
@@ -14,7 +15,7 @@ server.listen(config.port, err => {
   
   serverLog.info(`
        **********************************************
-       🌋 Server listening on port: ${config.port}🌋
+        Server listening on port: ${config.port}
        **********************************************
     `);
 });

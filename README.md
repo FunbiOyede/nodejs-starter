@@ -14,13 +14,13 @@ The project is a backend system for a health management system that serves any f
 
 - [x] Api Layer 🍰
 - [ ] Access Control 🎮
-- [ ] Authentication and Authorization for both Admin and Patients or Users Accounts
+- [x] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
 - [ ] Web caching Api endpoints using Redis
 - [ ] Rate limiting for user accounts api Access
 - [ ] Continuous Integration with Travis CI
 - [ ] Linting With Eslint
-- [ ] sending of emails and reminders with twillo and nodemailer
+- [x] sending of emails 
 - [x] Logging Layer
 - [ ] docker support
 - [ ] end to end testing with testcafe

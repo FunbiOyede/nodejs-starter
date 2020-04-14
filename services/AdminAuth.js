@@ -1,6 +1,7 @@
 const Admin = require("../models/admin");
 const {hash,compare} = require('bcryptjs');
-
+const serverLog = require('../loaders/logger').serverLogger
+const mailer = require('./mailer');
 /**
  * @class AuthService
  * @description Authenticate admin users
@@ -21,12 +22,14 @@ class AuthService {
       if( await Admin.findOne({email:admin.email})){
          throw new Error("User already exists. Please try again.")
       }
+      serverLog.info('hashing password.....')
       const hashedPassword = await hash(admin.password,12);
+      serverLog.info("creating user record")
       const adminRecord = await Admin.create({
         ...admin,
         password:hashedPassword
       });
-  
+      await mailer.sendWelcome()
       return adminRecord;
     } catch (error) {
       throw error;
