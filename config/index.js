@@ -9,6 +9,6 @@ module.exports = {
     process.env.MONGO_URI || "mongodb://localhost:27017/ExampleHealth",
   api: {
     AdminPrefix: "/api/admin",
-    prefix: "/api"
+    PatientPrefix:"/api/patient",
   }
 };

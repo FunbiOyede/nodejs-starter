@@ -1,79 +1,86 @@
 const express = require("express");
 const AdminService = require("../../services/admin");
 const Router = express.Router();
+const { celebrate, Joi, Segments } = require("celebrate");
 const responseLog = require("../../loaders/logger").responseLogger;
 const isAuth = require('../middleware/attachCurrentUser');
 
-// all this would happen if you the admin is authenticated
-// all patients
-Router.get("/patients",isAuth, async (req, res) => {
-  try {
-    const patients = await AdminService.GetPatients();
-    res.json(patients);
-  } catch (e) {
-    res.status(400).json(e);
-    responseLog.error(e);
-  }
-});
 
-// create patient
-Router.post("/patient", isAuth, async (req, res) => {
-  try {
-    const patientRecord = {
-      name: req.body.name,
-      email: req.body.email,
-      gender: req.body.gender,
-      age: req.body.age,
-      password: req.body.password,
-      phoneNumber: req.body.phoneNumber,
-      dateOfBirth: req.body.dateOfBirth,
-      bloodGroup: req.body.bloodGroup
-    };
-    const patient = await AdminService.CreatePatient(patientRecord);
-    res.status(201).json(patient);
-  } catch (e) {
-    res.status(400).json(e);
-    responseLog.error(e);
+
+
+Router.post(
+  "/auth/register",
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      name: Joi.string().required(),
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+      age: Joi.number()
+      .integer()
+      .required(),
+      address:Joi.string().required(),
+  
+     
+    })
+  }),
+  async (req, res, next) => {
+    try {
+      const adminRecord = await AdminService.SignUp({ 
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        age:req.body.age,
+        address:req.body.address,
+        role: "Admin",});
+      res.status(201).json({message:'user created', adminRecord});
+    } catch (error) {
+    res.status(401).json({messae:'User already exists. Please try again.'})
+    responseLog.info(error)
+    }
   }
-});
-// get a patient
-Router.get("/patient/:id", isAuth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const patient = await AdminService.GetPatient(id);
-    res.status(200).json(patient);
-  } catch (e) {
-    res.status(400).json(e);
-    responseLog.error(e);
+);
+
+
+
+Router.post(
+  "/auth/login",
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      email: Joi.string().required(),
+      password: Joi.string().required()
+    })
+  }),
+  async (req, res) => {
+
+    try {
+      const admin = await AdminService.SignIn({
+        email:req.body.email,
+        password:req.body.password
+      });
+      req.session.isLoggedIn = true,
+      req.session.admin = admin
+      res.status(200).json({message:'logged in', admin});
+    } catch (error) {
+     res.status(400).json({message:"invalid crendentials"})
+     responseLog.info(error)
+    }
   }
-});
-// update patient
-Router.put("/patient/:id",isAuth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const patientRecord = {
-      name: req.body.name,
-      email: req.body.email,
-      age: req.body.age,
-      phoneNumber: req.body.phoneNumber
-    };
-    const patient = await AdminService.UpdatePatient(id, patientRecord);
-    res.status(201).json(patient);
-  } catch (e) {
-    res.status(400).json(e);
-    responseLog.error(e);
-  }
-});
-// delete patient
-Router.delete("/patient/:id",isAuth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const patient = await AdminService.DeletePatient(id);
-    res.status(200).json(patient);
-  } catch (e) {
-    res.status(400).json(e);
-    responseLog.error(e);
-  }
-});
+);
+
+Router.get('/auth/logout', (req,res) =>{
+  // delete session from database
+  req.session.destroy(() =>{
+    res.send('logout')
+  })
+})
+
+
+// adding additional info for admin
+Router.get("/admin-info",(req,res) =>{
+  
+
+})
+
+
 
 module.exports = Router;

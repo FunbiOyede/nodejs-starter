@@ -6,16 +6,13 @@ const Admin = new mongoose.Schema({
     required: true,
     minlength: 8
   },
-  role: {
-    type: String,
-    required: true
-  },
+  
   email: {
     type: String,
     required: true,
     trim: true
   },
-  gender: {
+  password: {
     type: String,
     required: true
   },
@@ -23,21 +20,14 @@ const Admin = new mongoose.Schema({
     type: Number,
     required: true
   },
-  password: {
+ 
+ address: {
     type: String,
     required: true
   },
-  phoneNumber: {
-    type: String,
-    required: true
-  },
-  dateOfBirth: {
-    type: String,
-    required: true
-  },
-  bloodGroup: {
-    type: String,
-    required: true
+  role:{
+    type:String,
+    required:true
   }
 });
 

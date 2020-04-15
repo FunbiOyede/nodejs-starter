@@ -11,7 +11,7 @@ const Patient = new mongoose.Schema({
     required: true,
     trim: true
   },
-  gender: {
+  password: {
     type: String,
     required: true
   },
@@ -19,21 +19,20 @@ const Patient = new mongoose.Schema({
     type: Number,
     required: true
   },
-  password: {
+  
+  gender: {
     type: String,
     required: true
   },
-  phoneNumber: {
+  
+  address: {
     type: String,
     required: true
   },
-  dateOfBirth: {
-    type: String,
-    required: true
-  },
-  bloodGroup: {
-    type: String,
-    required: true
+
+  role:{
+    type:String,
+    require:true
   }
 });
 

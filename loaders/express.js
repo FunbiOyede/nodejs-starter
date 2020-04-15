@@ -6,7 +6,6 @@ const { errors } = require("celebrate");
 const bodyParser = require("body-parser");
 const AdminRoutes = require("../api/routes/admin");
 const PatientRoutes = require("../api/routes/patient");
-const AdminAuthRoutes = require("../api/routes/auth");
 const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
 const sessionStore = require("../loaders/sessionStore");
@@ -44,10 +43,8 @@ app.get("/status", (req, res) => {
 });
 
 // routes
-app.use(config.api.AdminPrefix, AdminAuthRoutes);
 app.use(config.api.AdminPrefix, AdminRoutes);
-
-app.use(config.api.prefix, PatientRoutes);
+app.use(config.api.PatientPrefix, PatientRoutes);
 app.use(errors())
 
 //Each 404 send to Omnipotent error handler
