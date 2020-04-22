@@ -3,6 +3,7 @@ const PatientService = require("../../services/patient");
 const { celebrate, Joi, Segments } = require("celebrate");
 const responseLog = require("../../loaders/logger").responseLogger;
 const Router = express.Router();
+const isAuth = require('../middleware/attachCurrentUser');
 
 
 
@@ -22,17 +23,22 @@ Router.post(
   }),
   async (req, res, next) => {
     try {
-      const adminRecord = await PatientService.SignUp({ 
+      const patient = await PatientService.createPatients({ 
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         age:req.body.age,
         gender:req.body.gender,
         address:req.body.address,
-        role: "Patient",});
-      res.status(201).json({message:'user created', adminRecord});
+        role: "Patient"
+      });
+      req.session.isLoggedIn = true,
+      req.session.patient = patient
+      console.log(req.session.patient)
+      res.status(201).json({message:'user created', patient});
     } catch (error) {
-    res.status(401).json({messae:'User already exists. Please try again.'})
+      console.log(error)
+    res.status(401).json({message: error.message})
     }
   }
 );
@@ -50,22 +56,22 @@ Router.post(
   async (req, res) => {
 
     try {
-      const admin = await PatientService.SignIn({
+      const patient = await PatientService.login({
         email:req.body.email,
         password:req.body.password
       });
       req.session.isLoggedIn = true,
-      req.session.admin = admin
-      res.status(200).json({message:'logged in', admin});
+      req.session.patient = patient
+      res.status(200).json({message:'logged in', patient});
     } catch (error) {
-     res.status(400).json({message:"invalid crendentials"})
+     res.status(400).json({message:error.message})
     }
   }
 );
 
-Router.get("/patient-info/:id", async (req, res) => {
+Router.get("/patient-info",isAuth, async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.session.admin._id;
     const patient = await PatientService.getPatient(id);
     res.status(200).json(patient);
   } catch (e) {
@@ -74,6 +80,6 @@ Router.get("/patient-info/:id", async (req, res) => {
   }
 });
 
-Router.get("/patient/appoinments");
+
 
 module.exports = Router;

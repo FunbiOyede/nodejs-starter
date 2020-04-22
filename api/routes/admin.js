@@ -4,8 +4,7 @@ const Router = express.Router();
 const { celebrate, Joi, Segments } = require("celebrate");
 const responseLog = require("../../loaders/logger").responseLogger;
 const isAuth = require('../middleware/attachCurrentUser');
-
-
+const isAdmin = require("../middleware/Admin");
 
 
 Router.post(
@@ -19,7 +18,6 @@ Router.post(
       .integer()
       .required(),
       address:Joi.string().required(),
-  
      
     })
   }),
@@ -31,10 +29,14 @@ Router.post(
         password: req.body.password,
         age:req.body.age,
         address:req.body.address,
-        role: "Admin",});
+        role: "Admin"
+      });
+      req.session.isLoggedIn = true,
+      req.session.admin = admin
       res.status(201).json({message:'user created', adminRecord});
     } catch (error) {
-    res.status(401).json({messae:'User already exists. Please try again.'})
+
+    res.status(401).json({message: error.message})
     responseLog.info(error)
     }
   }
@@ -61,13 +63,13 @@ Router.post(
       req.session.admin = admin
       res.status(200).json({message:'logged in', admin});
     } catch (error) {
-     res.status(400).json({message:"invalid crendentials"})
+     res.status(400).json({message:error.message})
      responseLog.info(error)
     }
   }
 );
 
-Router.get('/auth/logout', (req,res) =>{
+Router.get('/auth/logout',isAuth, (req,res) =>{
   // delete session from database
   req.session.destroy(() =>{
     res.send('logout')
@@ -76,9 +78,24 @@ Router.get('/auth/logout', (req,res) =>{
 
 
 // adding additional info for admin
-Router.get("/admin-info",(req,res) =>{
-  
+Router.get("/admin-info",isAuth, async (req,res) =>{
+  try {
+    const email = req.session.admin.email;
+    const admin = await AdminService.getAdminInformation(email);
+    res.status(200).json({admin});
+  } catch (error) {
+    res.status(400).json({message:error.message})
+  }
+})
 
+Router.get("/patients",isAuth, isAdmin ,async(req,res) =>{
+  try {
+    const patients = await AdminService.GetPatients()
+    res.status(200).json(patients);
+  } catch (error) {
+    res.status(400).json({message:error.message})
+  }
+ 
 })
 
 

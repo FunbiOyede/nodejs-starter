@@ -40,7 +40,7 @@ class AuthService {
 
   /**
    *
-   * @param {email} email address of admin
+   * @param {email} email  containing the email address of admin
    * @description log admin in
    * @returns  {object} adminRecord
    * @memberof AuthService
@@ -73,7 +73,7 @@ class AuthService {
    */
   static async GetPatients() {
     try {
-      const patient = await PatientModel.find();
+      const patient = await PatientModel.find({},'name age gender');
       return patient;
     } catch (e) {
       responseLog.error(e);
@@ -106,6 +106,26 @@ class AuthService {
   }
 
 
+
+  /***
+   * 
+   * @param{string} email
+   * @description gets admin information
+   * @returns admin
+   */
+    static async getAdminInformation(email){
+      try {
+        
+        const admin = await Admin.findOne({email:email}, 'name email age address');
+        if(!admin){
+          throw new Error("User not found");
+
+        }
+        return admin
+      } catch (error) {
+        throw error
+      }
+    }
   /**
    * @param {number} id
    * @description fetchs a patient by id
