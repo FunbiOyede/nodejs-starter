@@ -48,19 +48,16 @@ app.use(config.api.PatientPrefix, PatientRoutes);
 app.use(errors())
 
 //Each 404 send to Omnipotent error handler
-app.use((req, res, next) => {
-  const error = new Error("Not found");
-  error.status = 404;
-  next(error);
-});
+
+app.use( (req, res, next) => {
+  res.status(404).json("Sorry can't find that!")
+})
+
 
 // Omnipotent error handler
-app.use((error, res) => {
-  res.status(error.status || 500).json({
-    error: {
-      status: error.status || 500,
-      message: error.message || "Internal server error"
-    }
-  });
+app.use((error, req, res, next) => {
+  res.status(500).json(error);
 });
+
+
 module.exports = app;

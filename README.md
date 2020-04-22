@@ -13,7 +13,6 @@ The project is a backend system for a health management system that serves any f
 # Roadmap
 
 - [x] Api Layer 🍰
-- [ ] Access Control 🎮
 - [x] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
 - [ ] Web caching Api endpoints using Redis

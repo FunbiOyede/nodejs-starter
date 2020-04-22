@@ -4,8 +4,8 @@
 const isAdmin = async (req, res, next) => {
   
     if (req.session.admin.role !== 'Admin') {
-        console.log("hfhhebhefb",req.session)
-       return res.status(403).send('Access Denied');
+      
+       return res.status(403).send('Forbidden');
     }
     
     return next();
