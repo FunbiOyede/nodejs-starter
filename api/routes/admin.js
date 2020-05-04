@@ -90,8 +90,10 @@ Router.get("/admin-info",isAuth, async (req,res) =>{
 
 Router.get("/patients",isAuth, isAdmin ,async(req,res) =>{
   try {
-    const patients = await AdminService.GetPatients()
-    res.status(200).json(patients);
+    
+    const page = +req.query.page
+    const {patients,NumberOfPatients,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage} = await AdminService.getPatients(page)
+    res.status(200).json({results:{patients,NumberOfPatients, hasNextPage, hasPrevPage,currentPage,nextPage,prevPage}});
   } catch (error) {
     res.status(400).json({message:error.message})
   }
@@ -99,5 +101,14 @@ Router.get("/patients",isAuth, isAdmin ,async(req,res) =>{
 })
 
 
+Router.get("/patient/:id", isAuth, isAdmin, async(req,res) =>{
+    const {id} = req.params
+    try {
+      const patients = await AdminService.getPatient(id)
+      res.status(200).json(patients);
+    } catch (error) {
+      res.status(400).json({message:error.message})
+    }
+})
 
 module.exports = Router;

@@ -1,8 +1,9 @@
 const Admin = require("../models/admin");
 const PatientModel = require("../models/patient");
-
+const {PATIENTS_PER_PAGE} = require('../util/constants');
 const {hash,compare} = require('bcryptjs');
 const serverLog = require('../loaders/logger').serverLogger
+const responseLog = require('../loaders/logger').responseLogger
 const mailer = require('./mailer');
 /**
  * @class AuthService
@@ -68,13 +69,26 @@ class AuthService {
 
   /**
    * @description fetches all patients
+   * @param {Number} number of page
    * @returns {object} patient
    * @memberof AdminService
    */
-  static async GetPatients() {
+  static async getPatients(page) {
     try {
-      const patient = await PatientModel.find({},'name age gender');
-      return patient;
+      // implementing pagination
+      const patients = await PatientModel.find({},'name age gender').skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE)
+      const NumberOfPatients = await PatientModel.countDocuments();
+      const hasNextPage = PATIENTS_PER_PAGE * page < NumberOfPatients;
+      const hasPrevPage = page > 1
+      const currentPage = page
+      const nextPage = page + 1;
+      const prevPage = page - 1
+      // const pagesNavigation = {
+      //   next:PATIENTS_PER_PAGE * page < NumberOfPatients,
+      //   prev:page > 1
+      // }
+
+      return {patients,NumberOfPatients,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage};
     } catch (e) {
       responseLog.error(e);
       throw e;
@@ -132,7 +146,7 @@ class AuthService {
    * @returns {object} patient
    * @memberof AdminService
    */
-  static async GetPatient(id) {
+  static async getPatient(id) {
     try {
       const patient = await PatientModel.findById(id);
       return { patient };

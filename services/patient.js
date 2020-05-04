@@ -38,7 +38,7 @@ class PatientService {
        ...patient,
        password:hashedPassword
      });
-     await mailer.sendWelcome()
+    //  await mailer.sendWelcome()
      return patientRecord;
     } catch (error) {
   

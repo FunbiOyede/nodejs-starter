@@ -1,0 +1,1 @@
+exports.PATIENTS_PER_PAGE = 10;

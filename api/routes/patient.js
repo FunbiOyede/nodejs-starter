@@ -34,7 +34,7 @@ Router.post(
       });
       req.session.isLoggedIn = true,
       req.session.patient = patient
-      console.log(req.session.patient)
+      // console.log(req.session.patient)
       res.status(201).json({message:'user created', patient});
     } catch (error) {
       console.log(error)
@@ -71,7 +71,7 @@ Router.post(
 
 Router.get("/patient-info",isAuth, async (req, res) => {
   try {
-    const id = req.session.admin._id;
+    const id = req.session.patient._id;
     const patient = await PatientService.getPatient(id);
     res.status(200).json(patient);
   } catch (e) {

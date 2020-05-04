@@ -15,14 +15,14 @@ The project is a backend system for a health management system that serves any f
 - [x] Api Layer 🍰
 - [x] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
+- [ ] Pagination
 - [ ] Web caching Api endpoints using Redis
 - [ ] Rate limiting for user accounts api Access
 - [ ] Continuous Integration with Travis CI
 - [ ] Linting With Eslint
 - [x] sending of emails 
 - [x] Logging Layer
-- [ ] docker support
 - [ ] end to end testing with testcafe
 - [ ] hosting on heroku
-- [x] Session-based Authentication(Mongodb as session store. Anything can be used)
+- [x] Session-based Authentication(Mongodb as session store. Anything data can be used)
 - [ ] and lets see if more would be added
