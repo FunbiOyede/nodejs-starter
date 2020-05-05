@@ -37,9 +37,8 @@ app.use(expressWinston.logger(HttpLogger()));
 
 //  health checks
 // GET
-app.get("/status", (req, res) => {
-  res.status(200).json("working");
-  mailer.sendWelcome();
+app.get("/health", (req, res) => {
+  res.status(200).json({status:'UP',uptime:process.uptime(), time: Date.now().toString()});
 });
 
 // routes
