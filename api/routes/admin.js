@@ -94,8 +94,8 @@ Router.get("/patients",isAuth, isAdmin ,async(req,res) =>{
     const page = +req.query.page
     let  {sortOrder} = req.query || 'asc'
     
-    const {patients,NumberOfPatients,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage} = await AdminService.getPatients(page,sortOrder)
-    res.status(200).json({results:{patients,NumberOfPatients, hasNextPage, hasPrevPage,currentPage,nextPage,prevPage}});
+    const {patients,total,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage} = await AdminService.getPatients(page,sortOrder)
+    res.status(200).json({ status:"success",message:"patients",data:{page_info:{total, hasNextPage, hasPrevPage,currentPage,nextPage,prevPage},patients}});
   } catch (error) {
     res.status(400).json({message:error.message})
   }

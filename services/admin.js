@@ -76,11 +76,11 @@ class AdminServices {
   static async getPatients(page,sortOrder) {
     try {
       let SortOrder = sortOrder === 'desc' ? -1 : 1;
-      console.log(sortOrder)
+
       // implementing pagination
       const patients = await PatientModel.find({},'name age gender').skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE).sort({name:SortOrder})
-      const NumberOfPatients = await PatientModel.countDocuments();
-      const hasNextPage = PATIENTS_PER_PAGE * page < NumberOfPatients;
+      const total = await PatientModel.countDocuments();
+      const hasNextPage = PATIENTS_PER_PAGE * page < total;
       const hasPrevPage = page > 1
       const currentPage = page
       const nextPage = page + 1;
@@ -90,7 +90,7 @@ class AdminServices {
       //   prev:page > 1
       // }
 
-      return {patients,NumberOfPatients,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage};
+      return {patients,total,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage};
     } catch (e) {
       responseLog.error(e);
       throw e;
