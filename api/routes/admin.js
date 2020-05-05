@@ -111,4 +111,16 @@ Router.get("/patient/:id", isAuth, isAdmin, async(req,res) =>{
     }
 })
 
+
+Router.get("/search-patient", isAuth, isAdmin,async(req,res) =>{
+  const {name} = req.query;
+    try{
+
+      const patient = await AdminService.searchPatient(name);
+      res.status(200).json(patient);
+    }catch(e){
+      res.status(400).json({message:error.message})
+    }
+
+})
 module.exports = Router;

@@ -9,7 +9,7 @@ const mailer = require('./mailer');
  * @class AuthService
  * @description Authenticate admin users
  */
-class AuthService {
+class AdminServices {
   constructor() {}
 
   /**
@@ -17,7 +17,7 @@ class AuthService {
    * @param {object} admin
    * @description sign admin up
    * @returns  {object} adminRecord
-   * @memberof AuthService
+   * @memberof AdminServices
    *
    */
   static async SignUp(admin) {
@@ -44,7 +44,7 @@ class AuthService {
    * @param {email} email  containing the email address of admin
    * @description log admin in
    * @returns  {object} adminRecord
-   * @memberof AuthService
+   * @memberof AdminServices
    *
    */
   // email  for now password later
@@ -172,6 +172,16 @@ class AuthService {
     }
   }
 
+  static async searchPatient(patientName){
+   try {
+     const patient = await PatientModel.findOne({name:patientName}, 'name email age address');
+      return {patient}
+   } catch (error) {
+    responseLog.error(e);
+    throw e;
+   }
+  }
+
 }
 
-module.exports = AuthService;
+module.exports = AdminServices;
