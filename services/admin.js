@@ -73,10 +73,12 @@ class AdminServices {
    * @returns {object} patient
    * @memberof AdminService
    */
-  static async getPatients(page) {
+  static async getPatients(page,sortOrder) {
     try {
+      let SortOrder = sortOrder === 'desc' ? -1 : 1;
+      console.log(sortOrder)
       // implementing pagination
-      const patients = await PatientModel.find({},'name age gender').skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE)
+      const patients = await PatientModel.find({},'name age gender').skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE).sort({name:SortOrder})
       const NumberOfPatients = await PatientModel.countDocuments();
       const hasNextPage = PATIENTS_PER_PAGE * page < NumberOfPatients;
       const hasPrevPage = page > 1
@@ -172,9 +174,10 @@ class AdminServices {
     }
   }
 
-  static async searchPatient(patientName){
+  static async searchPatient(patientName, sortOrder){
    try {
-     const patient = await PatientModel.findOne({name:patientName}, 'name email age address');
+    let SortOrder = sortOrder === 'desc' ? -1 : 1;
+     const patient = await PatientModel.findOne({name:patientName}, 'name email age address').sort({name:sortOrder});
       return {patient}
    } catch (error) {
     responseLog.error(e);

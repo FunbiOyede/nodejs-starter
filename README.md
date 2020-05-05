@@ -15,7 +15,7 @@ The project is a backend system for a health management system that serves any f
 - [x] Api Layer 🍰
 - [x] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
-- [x] Pagination, Searching
+- [x] Pagination, Searching, Sorting
 - [ ] Web caching Api endpoints using Redis
 - [ ] Rate limiting for user accounts api Access
 - [ ] Continuous Integration with Travis CI

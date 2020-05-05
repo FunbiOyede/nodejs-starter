@@ -92,7 +92,9 @@ Router.get("/patients",isAuth, isAdmin ,async(req,res) =>{
   try {
     
     const page = +req.query.page
-    const {patients,NumberOfPatients,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage} = await AdminService.getPatients(page)
+    let  {sortOrder} = req.query || 'asc'
+    
+    const {patients,NumberOfPatients,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage} = await AdminService.getPatients(page,sortOrder)
     res.status(200).json({results:{patients,NumberOfPatients, hasNextPage, hasPrevPage,currentPage,nextPage,prevPage}});
   } catch (error) {
     res.status(400).json({message:error.message})
@@ -114,9 +116,10 @@ Router.get("/patient/:id", isAuth, isAdmin, async(req,res) =>{
 
 Router.get("/search-patient", isAuth, isAdmin,async(req,res) =>{
   const {name} = req.query;
+  let  {sortOrder} = req.query || 'asc'
     try{
 
-      const patient = await AdminService.searchPatient(name);
+      const patient = await AdminService.searchPatient(name,sortOrder);
       res.status(200).json(patient);
     }catch(e){
       res.status(400).json({message:error.message})
