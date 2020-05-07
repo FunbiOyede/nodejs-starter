@@ -10,6 +10,7 @@ const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
 const sessionStore = require("../loaders/sessionStore");
 const mailer = require('../services/mailer');
+const limiter = require('../api/middleware/limitRequest');
 const app = express();
 
 // cors
@@ -37,7 +38,7 @@ app.use(expressWinston.logger(HttpLogger()));
 
 //  health checks
 // GET
-app.get("/health", (req, res) => {
+app.get("/health",limiter(5,5000),(req, res) => {
   res.status(200).json({status:'UP',uptime:process.uptime(), time: Date.now().toString()});
 });
 
