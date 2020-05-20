@@ -72,7 +72,6 @@ class PatientService {
       throw new Error('invalid password')
      
     } catch (error) {
-      console.log(error)
       throw error;
     }
   }

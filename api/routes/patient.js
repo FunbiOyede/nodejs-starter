@@ -80,6 +80,13 @@ Router.get("/patient-info",isAuth, async (req, res) => {
   }
 });
 
+Router.get('/auth/logout',isAuth, (req,res) =>{
+  // delete session from database
+  req.session.destroy(() =>{
+    res.send('logout')
+  })
+})
+
 
 
 module.exports = Router;

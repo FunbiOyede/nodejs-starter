@@ -16,7 +16,6 @@ The project is a backend system for a health management system that serves any f
 - [x] Authentication and Authorization for both Admin and Patients or Users Accounts
 - [ ] Units test with Jest
 - [x] Pagination, Searching, Sorting
-- [ ] Rate limiting for user accounts api Access
 - [ ] Continuous Integration with Travis CI
 - [ ] Linting With Eslint
 - [x] sending of emails 

@@ -9,8 +9,7 @@ const PatientRoutes = require("../api/routes/patient");
 const config = require("../config/index");
 const HttpLogger = require("../api/middleware/index");
 const sessionStore = require("../loaders/sessionStore");
-const mailer = require('../services/mailer');
-const limiter = require('../api/middleware/limitRequest');
+const rateLimiter = require('../api/middleware/limiter');
 const app = express();
 
 // cors
@@ -38,13 +37,13 @@ app.use(expressWinston.logger(HttpLogger()));
 
 //  health checks
 // GET
-app.get("/health",limiter(5,5000),(req, res) => {
+app.get("/health",(req, res) => {
   res.status(200).json({status:'UP',uptime:process.uptime(), time: Date.now().toString()});
 });
 
 // routes
 app.use(config.api.AdminPrefix, AdminRoutes);
-app.use(config.api.PatientPrefix, PatientRoutes);
+app.use(config.api.PatientPrefix,rateLimiter, PatientRoutes);
 app.use(errors())
 
 //Each 404 send to Omnipotent error handler
