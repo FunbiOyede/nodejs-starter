@@ -17,9 +17,11 @@ The project is a backend system for a health management system that serves any f
 - [ ] Units test with Jest
 - [x] Pagination, Searching, Sorting
 - [ ] Continuous Integration with Travis CI
+- [x]  web caching   using Redis.
 - [ ] Linting With Eslint
 - [x] sending of emails 
 - [x] Logging Layer
+- [x] rate limiting for patience account API access.
 - [ ] end to end testing with testcafe
 - [ ] hosting on heroku
 - [x] Session-based Authentication(Mongodb as session store. Anything data can be used)

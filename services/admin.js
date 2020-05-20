@@ -85,11 +85,7 @@ class AdminServices {
       const currentPage = page
       const nextPage = page + 1;
       const prevPage = page - 1
-      // const pagesNavigation = {
-      //   next:PATIENTS_PER_PAGE * page < NumberOfPatients,
-      //   prev:page > 1
-      // }
-
+     
       return {patients,total,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage};
     } catch (e) {
       responseLog.error(e);

@@ -10,7 +10,6 @@ const start = () =>{
         console.log("error",err)
     })
 }
-const redisClient = () => client;
 
 module.exports = {
    start,

@@ -5,6 +5,8 @@ const { celebrate, Joi, Segments } = require("celebrate");
 const responseLog = require("../../loaders/logger").responseLogger;
 const isAuth = require('../middleware/attachCurrentUser');
 const isAdmin = require("../middleware/Admin");
+const {client} = require('../../loaders/redis');
+const cache = require('../middleware/cache');
 
 
 Router.post(
@@ -88,15 +90,18 @@ Router.get("/admin-info",isAuth, async (req,res) =>{
   }
 })
 
-Router.get("/patients",isAuth, isAdmin ,async(req,res) =>{
+Router.get("/patients",isAuth, isAdmin,cache,async(req,res) =>{
   try {
+    
     
     const page = +req.query.page
     let  {sortOrder} = req.query || 'asc'
     
     const {patients,total,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage} = await AdminService.getPatients(page,sortOrder)
+    client.setex(req.session.admin.role,3600,JSON.stringify({patients,total,hasNextPage, hasPrevPage,currentPage,nextPage,prevPage}))
     res.status(200).json({ status:"success",message:"patients",data:{page_info:{total, hasNextPage, hasPrevPage,currentPage,nextPage,prevPage},patients}});
   } catch (error) {
+    console.log(error)
     res.status(400).json({message:error.message})
   }
  
