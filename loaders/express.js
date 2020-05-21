@@ -13,8 +13,6 @@ const HttpLogger = require("../api/middleware/index");
 const sessionStore = require("../loaders/sessionStore");
 const rateLimiter = require('../api/middleware/limiter');
 const serverLog = require("./logger").serverLogger;
-const app = express();
-
 
 
 class Server{
