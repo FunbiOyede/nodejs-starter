@@ -15,7 +15,7 @@ const cache = async (req, res, next) => {
      try {
          const data = await client.get(role);
          if (data != null) {
-          res.json(data);
+          res.json(JSON.parse(data));
         } else {
           next();
         }
