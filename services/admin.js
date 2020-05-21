@@ -5,6 +5,8 @@ const {hash,compare} = require('bcryptjs');
 const serverLog = require('../loaders/logger').serverLogger
 const responseLog = require('../loaders/logger').responseLogger
 const mailer = require('./mailer');
+const repository = require('../repository/admin');
+const patientRepository = require('../repository/patient');
 /**
  * @class AuthService
  * @description Authenticate admin users
@@ -22,19 +24,19 @@ class AdminServices {
    */
   static async SignUp(admin) {
     try {
-      if( await Admin.findOne({email:admin.email})){
+      if( await repository.find({email:admin.email},false)){
          throw new Error("User already exists. Please try again.")
       }
       serverLog.info('hashing password.....')
       const hashedPassword = await hash(admin.password,12);
       serverLog.info("creating user record")
-      const adminRecord = await Admin.create({
+      const adminRecord = await repository.create({
         ...admin,
         password:hashedPassword
-      });
-      await mailer.sendWelcome()
+      })
       return adminRecord;
     } catch (error) {
+
       throw error;
     }
   }
@@ -50,7 +52,7 @@ class AdminServices {
   // email  for now password later
   static async SignIn(user) {
     try {
-      const adminRecord = await Admin.findOne({ email:user.email });
+      const adminRecord = await  repository.find({ email:user.email },false)
       if (!adminRecord) {
         throw new Error("invalid email");
       }
@@ -78,7 +80,7 @@ class AdminServices {
       let SortOrder = sortOrder === 'desc' ? -1 : 1;
 
       // implementing pagination
-      const patients = await PatientModel.find({},'name age gender').skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE).sort({name:SortOrder})
+      const patients = await patientRepository.find({},'name age gender').skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE).sort({name:SortOrder})
       const total = await PatientModel.countDocuments();
       const hasNextPage = PATIENTS_PER_PAGE * page < total;
       const hasPrevPage = page > 1
@@ -94,29 +96,6 @@ class AdminServices {
   }
 
 
-    /**
-   * @param {number} id
-   * @param {object} patient
-   * @description updates a patient by id
-   * @returns {object} Patient
-   * @memberof AdminService
-   *
-   */
-  static async UpdatePatient(id, patient) {
-    try {
-      const Patient = await PatientModel.findByIdAndUpdate(id, {
-        name: patient.name,
-        email: patient.email,
-        age: patient.age,
-        phoneNumber: patient.phoneNumber
-      });
-      return { patient: Patient };
-    } catch (e) {
-      responseLog.error(e);
-      throw e;
-    }
-  }
-
 
 
   /***
@@ -128,7 +107,8 @@ class AdminServices {
     static async getAdminInformation(email){
       try {
         
-        const admin = await Admin.findOne({email:email}, 'name email age address');
+        
+        const admin = await repository.find({email:email},['name email age address'],false)
         if(!admin){
           throw new Error("User not found");
 
@@ -146,7 +126,7 @@ class AdminServices {
    */
   static async getPatient(id) {
     try {
-      const patient = await PatientModel.findById(id);
+      const patient = await patientRepository.getById(id);
       return { patient };
     } catch (e) {
       responseLog.error(e);
@@ -154,26 +134,11 @@ class AdminServices {
     }
   }
 
-  /**
-   * @param {number} id
-   * @description deletes a patient by id
-   * @returns {object} patient
-   * @memberof AdminService
-   */
-  static async DeletePatient(id) {
-    try {
-      const patient = await PatientModel.findByIdAndDelete(id);
-      return { patient };
-    } catch (e) {
-      responseLog.error(e);
-      throw e;
-    }
-  }
 
   static async searchPatient(patientName, sortOrder){
    try {
     let SortOrder = sortOrder === 'desc' ? -1 : 1;
-     const patient = await PatientModel.findOne({name:patientName}, 'name email age address').sort({name:sortOrder});
+    const patient = await patientRepository.find({name:patientName},['name email age address']).sort({name:SortOrder});
       return {patient}
    } catch (error) {
     responseLog.error(e);

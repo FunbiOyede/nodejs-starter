@@ -34,10 +34,9 @@ Router.post(
         role: "Admin"
       });
       req.session.isLoggedIn = true,
-      req.session.admin = admin
+      req.session.admin = adminRecord
       res.status(201).json({message:'user created', adminRecord});
     } catch (error) {
-
     res.status(401).json({message: error.message})
     responseLog.info(error)
     }

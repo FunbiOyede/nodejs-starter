@@ -1,6 +1,14 @@
 const {client} = require('../../loaders/redis');
 
 
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @description caches data
+ */
 const cache = async (req, res, next) => {
     
     const {role} = req.session.admin
@@ -14,8 +22,7 @@ const cache = async (req, res, next) => {
 
      } catch (error) {
          if (error) {
-         console.log(error)
-        res.status(500).send(error);
+        res.status(500).json(error);
       }
      }
   };
