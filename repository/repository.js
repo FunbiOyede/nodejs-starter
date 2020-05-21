@@ -10,9 +10,8 @@ class Repository{
         return document.save()
     }
 
-    find(query={},fields,multiple=true){
-        const paramter = [...fields].join() || null
-         const result = multiple ? this.model.find(query) : this.model.findOne(query,paramter)
+    find(query={},multiple=true){
+         const result = multiple ? this.model.find(query) : this.model.findOne(query)
          return result
     }
     getById(id){

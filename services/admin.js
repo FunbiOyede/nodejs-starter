@@ -80,7 +80,7 @@ class AdminServices {
       let SortOrder = sortOrder === 'desc' ? -1 : 1;
 
       // implementing pagination
-      const patients = await patientRepository.find({},'name age gender').skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE).sort({name:SortOrder})
+      const patients = await patientRepository.find({}).skip((page - 1) * PATIENTS_PER_PAGE).limit(PATIENTS_PER_PAGE).sort({name:SortOrder})
       const total = await PatientModel.countDocuments();
       const hasNextPage = PATIENTS_PER_PAGE * page < total;
       const hasPrevPage = page > 1
@@ -108,7 +108,7 @@ class AdminServices {
       try {
         
         
-        const admin = await repository.find({email:email},['name email age address'],false)
+        const admin = await repository.find({email:email},false)
         if(!admin){
           throw new Error("User not found");
 
@@ -138,7 +138,7 @@ class AdminServices {
   static async searchPatient(patientName, sortOrder){
    try {
     let SortOrder = sortOrder === 'desc' ? -1 : 1;
-    const patient = await patientRepository.find({name:patientName},['name email age address']).sort({name:SortOrder});
+    const patient = await patientRepository.find({name:patientName}).sort({name:SortOrder});
       return {patient}
    } catch (error) {
     responseLog.error(e);

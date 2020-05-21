@@ -3,6 +3,7 @@ const {hash,compare} = require('bcryptjs');
 const serverLog = require('../loaders/logger').serverLogger
 const mailer = require('./mailer');
 const responseLog = require("../loaders/logger").responseLogger;
+const repository = require('../repository/patient');
 /**
  * @description  services for patients
  * @class PatientService
@@ -16,7 +17,7 @@ class PatientService {
    */
   static async getPatient(id) {
     try {
-      const patient = await PatientModel.findById(id);
+      const patient = await repository.getById(id);
       return patient;
     } catch (e) {
       responseLog.error(e);
@@ -28,20 +29,21 @@ class PatientService {
 
   static async createPatients(patient){
     try {
-      if( await PatientModel.findOne({email:patient.email})){
+      if( await repository.find({email:patient.email},false)){
+        
         throw new Error("User already exists. Please try again.")
      }
      serverLog.info('hashing password.....')
      const hashedPassword = await hash(patient.password,12);
      serverLog.info("creating patient record")
-     const patientRecord = await PatientModel.create({
-       ...patient,
-       password:hashedPassword
-     });
-     await mailer.sendWelcome()
+     const patientRecord = await repository.create({
+      ...patient,
+      password:hashedPassword
+    })
+     //await mailer.sendWelcome()
      return patientRecord;
     } catch (error) {
-  
+      console.log(error)
       throw error;
     }
 
@@ -60,7 +62,7 @@ class PatientService {
 
   static async login(patient){
     try {
-      const patientRecord = await PatientModel.findOne({ email:patient.email });
+      const patientRecord = await repository.find({ email:patient.email },false);
       if (!patientRecord) {
         throw new Error("invalid email");
       }
@@ -72,6 +74,7 @@ class PatientService {
       throw new Error('invalid password')
      
     } catch (error) {
+    
       throw error;
     }
   }
