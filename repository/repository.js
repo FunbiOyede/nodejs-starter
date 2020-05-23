@@ -18,6 +18,9 @@ class Repository{
         return this.model.findById(id)
 
     }
+    deleteAll(){
+        return this.model.remove({},()=>{})
+     }
     
 }
 
