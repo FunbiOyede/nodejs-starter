@@ -6,7 +6,8 @@ module.exports = {
   port: process.env.PORT,
   sessionSecret:process.env.SESSION_SECRET,
   databaseURL:
-    process.env.MONGO_URI || "mongodb://localhost:27017/ExampleHealth",
+    process.env.MONGO_URI,
+  TestDatabaseURL:process.env.TEST_MONGO_URI,
   api: {
     AdminPrefix: "/api/admin",
     PatientPrefix:"/api/patient",

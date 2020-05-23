@@ -22,5 +22,4 @@ The project is a backend system for a health management system that serves any f
 - [x] sending of emails 
 - [x] Logging Layer
 - [x] rate limiting for patience account API access.
-- [ ] end to end testing with testcafe
 - [x] Session-based Authentication(Mongodb as session store. Anything data can be used)
